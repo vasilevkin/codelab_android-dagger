@@ -16,6 +16,7 @@
 
 package com.example.android.dagger.registration
 
+import com.example.android.dagger.di.ActivityScope
 import com.example.android.dagger.user.UserManager
 import javax.inject.Inject
 
@@ -24,6 +25,9 @@ import javax.inject.Inject
  * and fragments) uses to keep user's input data.
  */
 
+
+// Scopes ViewModel to components that use @ActivityScope
+@ActivityScope
 // @Inject tells Dagger how to provide instances of this type
 // Dagger also knows that UserManager is a dependency
 class RegistrationViewModel @Inject constructor(val userManager: UserManager) {
