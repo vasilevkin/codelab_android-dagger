@@ -44,3 +44,14 @@ interface AppComponent {
     // can access a particular instance of UserComponent
     fun userManager(): UserManager
 }
+
+
+//// In a method
+//class ClassDependingOnStorage(@RegistrationStorage private val storage: Storage) { ... }
+//
+//// As an injected field
+//class ClassDependingOnStorage {
+//
+//    @Inject
+//    @field:RegistrationStorage lateinit var storage: Storage
+//}

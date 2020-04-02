@@ -19,11 +19,14 @@ package com.example.android.dagger.storage
 import android.content.Context
 import javax.inject.Inject
 
+
+class SharedPreferencesStorage @Inject constructor(name: String, context: Context) : Storage {
 // @Inject tells Dagger how to provide instances of this type
-class SharedPreferencesStorage @Inject constructor(context: Context) : Storage {
+//class SharedPreferencesStorage @Inject constructor(context: Context) : Storage {
 //class SharedPreferencesStorage(context: Context) : Storage {
 
-    private val sharedPreferences = context.getSharedPreferences("Dagger", Context.MODE_PRIVATE)
+    private val sharedPreferences = context.getSharedPreferences(name, Context.MODE_PRIVATE)
+//    private val sharedPreferences = context.getSharedPreferences("Dagger", Context.MODE_PRIVATE)
 
     override fun setString(key: String, value: String) {
         with(sharedPreferences.edit()) {
