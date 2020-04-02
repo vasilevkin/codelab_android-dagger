@@ -31,9 +31,10 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
+    // 1) Remove userManager field
     // @Inject annotated fields will be provided by Dagger
-    @Inject
-    lateinit var userManager: UserManager
+//    @Inject
+//    lateinit var userManager: UserManager
 
     @Inject
     lateinit var mainViewModel: MainViewModel
@@ -46,12 +47,17 @@ class MainActivity : AppCompatActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        (application as MyApplication).appComponent.inject(this)
+//        (application as MyApplication).appComponent.inject(this)
 
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_settings)
 
         // Remove this line
 //        val userManager = (application as MyApplication).userManager
+
+        // 2) Grab userManager from appComponent to check if the user is logged in or not
+        val userManager = (application as MyApplication).appComponent.userManager()
+
         if (!userManager.isUserLoggedIn()) {
             if (!userManager.isUserRegistered()) {
                 startActivity(Intent(this, RegistrationActivity::class.java))
@@ -60,13 +66,21 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             }
-        } else {
-            setContentView(R.layout.activity_main)
-
-            // Remove this line too
-//            mainViewModel = MainViewModel(userManager.userDataRepository!!)
-            setupViews()
         }
+            else {
+                setContentView(R.layout.activity_main)
+                // 3) If the MainActivity needs to be displayed, we get the UserComponent
+                // from the application graph and gets this Activity injected
+                userManager.userComponent!!.inject(this)
+                setupViews()
+            }
+//        } else {
+//            setContentView(R.layout.activity_main)
+//
+//            // Remove this line too
+////            mainViewModel = MainViewModel(userManager.userDataRepository!!)
+//            setupViews()
+//        }
     }
 
     /**
